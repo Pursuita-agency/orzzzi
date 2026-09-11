@@ -1,18 +1,57 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect, useCallback } from 'react';
 import { products } from '../data/products';
+import { Product } from '../types/product';
 import WhatsAppButton from '../components/WhatsAppButton';
+
+/* ---------- Cart Utilities ---------- */
+
+const CART_STORAGE_KEY = 'orzi_cart';
+
+interface CartItem {
+  id: string;
+  name: string;
+  price: number;
+  image: string;
+  quantity: number;
+}
+
+function loadCart(): CartItem[] {
+  try {
+    const raw = localStorage.getItem(CART_STORAGE_KEY);
+    return raw ? (JSON.parse(raw) as CartItem[]) : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveCart(items: CartItem[]) {
+  localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(items));
+}
+
+function getCartTotals(items: CartItem[]): { count: number; total: number } {
+  return items.reduce(
+    (acc, item) => ({
+      count: acc.count + item.quantity,
+      total: acc.total + item.price * item.quantity,
+    }),
+    { count: 0, total: 0 }
+  );
+}
+
+/* ---------- Bracelet Section ---------- */
 
 function BraceletSection({
   product,
   index,
-  onOrder,
+  onAddToCart,
 }: {
-  product: (typeof products)[number];
+  product: Product;
   index: number;
-  onOrder: () => void;
+  onAddToCart: (product: Product) => void;
 }) {
   const [activeImage, setActiveImage] = useState(0);
   const [fading, setFading] = useState(false);
+  const [added, setAdded] = useState(false);
 
   const handleThumb = (i: number) => {
     if (i === activeImage) return;
@@ -21,6 +60,12 @@ function BraceletSection({
       setActiveImage(i);
       setFading(false);
     }, 150);
+  };
+
+  const handleAddToCart = () => {
+    onAddToCart(product);
+    setAdded(true);
+    setTimeout(() => setAdded(false), 1800);
   };
 
   const isReversed = index % 2 === 1;
@@ -153,48 +198,250 @@ function BraceletSection({
       </div>
 
       <div className="flex justify-center mt-12">
-        <a
-          href="/order-bracelets.html"
-          target="_blank"
-          rel="noopener noreferrer"
+        <button
+          onClick={handleAddToCart}
           className="inline-block"
           style={{
             fontFamily: "'Amiri', serif",
             letterSpacing: '0.08em',
             fontSize: '1rem',
             padding: '14px 48px',
-            background: '#243247',
+            background: added ? '#2d5a3d' : '#243247',
             color: '#e7ddcc',
             border: 'none',
             borderRadius: '4px',
             fontWeight: 600,
-            boxShadow: '0 2px 12px rgba(36,50,71,0.15)',
+            boxShadow: added
+              ? '0 2px 12px rgba(45,90,61,0.25)'
+              : '0 2px 12px rgba(36,50,71,0.15)',
             transition: 'transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease',
             cursor: 'pointer',
-            textDecoration: 'none',
+            minWidth: '220px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '8px',
           }}
           onMouseEnter={(e) => {
-            (e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(-3px)';
-            (e.currentTarget as HTMLAnchorElement).style.boxShadow = '0 6px 24px rgba(36,50,71,0.25)';
-            (e.currentTarget as HTMLAnchorElement).style.background = '#1a2b3c';
+            if (!added) {
+              (e.currentTarget as HTMLButtonElement).style.transform = 'translateY(-3px)';
+              (e.currentTarget as HTMLButtonElement).style.boxShadow = '0 6px 24px rgba(36,50,71,0.25)';
+              (e.currentTarget as HTMLButtonElement).style.background = '#1a2b3c';
+            }
           }}
           onMouseLeave={(e) => {
-            (e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(0)';
-            (e.currentTarget as HTMLAnchorElement).style.boxShadow = '0 2px 12px rgba(36,50,71,0.15)';
-            (e.currentTarget as HTMLAnchorElement).style.background = '#243247';
+            if (!added) {
+              (e.currentTarget as HTMLButtonElement).style.transform = 'translateY(0)';
+              (e.currentTarget as HTMLButtonElement).style.boxShadow = '0 2px 12px rgba(36,50,71,0.15)';
+              (e.currentTarget as HTMLButtonElement).style.background = '#243247';
+            }
           }}
         >
-          أُطلب الآن
-        </a>
+          {added ? 'تمت الإضافة ✔' : 'أضف إلى السلة'}
+        </button>
       </div>
     </div>
   );
 }
 
+/* ---------- Sticky Cart Bar ---------- */
+
+function CartBar({ items }: { items: CartItem[] }) {
+  const { count, total } = getCartTotals(items);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    if (count > 0) {
+      setVisible(true);
+    } else {
+      setVisible(false);
+    }
+  }, [count]);
+
+  return (
+    <div
+      style={{
+        position: 'fixed',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        zIndex: 9000,
+        transform: visible ? 'translateY(0)' : 'translateY(100%)',
+        opacity: visible ? 1 : 0,
+        transition: 'transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s ease',
+        pointerEvents: visible ? 'auto' : 'none',
+      }}
+    >
+      <div
+        style={{
+          background: 'rgba(36, 50, 71, 0.82)',
+          backdropFilter: 'blur(16px)',
+          WebkitBackdropFilter: 'blur(16px)',
+          borderTop: '1px solid rgba(231, 221, 204, 0.15)',
+          boxShadow: '0 -4px 24px rgba(0, 0, 0, 0.12)',
+          padding: '14px 24px',
+        }}
+        dir="rtl"
+      >
+        <div
+          className="max-w-6xl mx-auto flex items-center justify-between gap-4"
+        >
+          {/* Right: Cart icon + count */}
+          <div className="flex items-center gap-3 flex-shrink-0">
+            <div style={{ position: 'relative' }}>
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="#e7ddcc"
+                viewBox="0 0 24 24"
+                style={{ opacity: 0.9 }}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={1.5}
+                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+                />
+              </svg>
+              <span
+                style={{
+                  position: 'absolute',
+                  top: '-8px',
+                  left: '-8px',
+                  background: '#e7ddcc',
+                  color: '#243247',
+                  fontSize: '0.7rem',
+                  fontWeight: 700,
+                  minWidth: '18px',
+                  height: '18px',
+                  borderRadius: '9px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  padding: '0 5px',
+                  fontFamily: "'Cinzel', serif",
+                }}
+              >
+                {count}
+              </span>
+            </div>
+            <span
+              className="hidden sm:inline"
+              style={{
+                fontFamily: "'Amiri', serif",
+                color: '#e7ddcc',
+                fontSize: '0.9rem',
+                opacity: 0.75,
+                letterSpacing: '0.03em',
+              }}
+            >
+              السلة
+            </span>
+          </div>
+
+          {/* Center: Total price */}
+          <div className="flex flex-col items-center flex-1 min-w-0">
+            <span
+              style={{
+                fontFamily: "'Cinzel', serif",
+                color: '#e7ddcc',
+                opacity: 0.5,
+                fontSize: '0.65rem',
+                letterSpacing: '0.2em',
+                textTransform: 'uppercase',
+              }}
+            >
+              Total
+            </span>
+            <span
+              style={{
+                fontFamily: "'Amiri', serif",
+                color: '#e7ddcc',
+                fontSize: '1.1rem',
+                fontWeight: 700,
+                whiteSpace: 'nowrap',
+              }}
+            >
+              {total.toLocaleString('en-US')} جنيه
+            </span>
+          </div>
+
+          {/* Left: CTA */}
+          <a
+            href="/order-bracelets.html"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex-shrink-0"
+            style={{
+              fontFamily: "'Amiri', serif",
+              fontSize: '0.9rem',
+              fontWeight: 600,
+              letterSpacing: '0.05em',
+              padding: '12px 28px',
+              background: '#e7ddcc',
+              color: '#243247',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              textDecoration: 'none',
+              transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+              display: 'inline-block',
+              boxShadow: '0 2px 10px rgba(0,0,0,0.15)',
+            }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(-2px)';
+              (e.currentTarget as HTMLAnchorElement).style.boxShadow = '0 6px 20px rgba(0,0,0,0.25)';
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(0)';
+              (e.currentTarget as HTMLAnchorElement).style.boxShadow = '0 2px 10px rgba(0,0,0,0.15)';
+            }}
+          >
+            إتمام الطلب
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ---------- Main Page ---------- */
+
 export default function BraceletsPage() {
   const collectionRef = useRef<HTMLDivElement>(null);
-
   const bracelets = products.filter((p) => p.collection === 'bracelets');
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+
+  useEffect(() => {
+    setCartItems(loadCart());
+  }, []);
+
+  const handleAddToCart = useCallback((product: Product) => {
+    setCartItems((prev) => {
+      const existing = prev.find((item) => item.id === product.id);
+      let updated: CartItem[];
+      if (existing) {
+        updated = prev.map((item) =>
+          item.id === product.id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        );
+      } else {
+        updated = [
+          ...prev,
+          {
+            id: product.id,
+            name: product.name,
+            price: product.price,
+            image: product.image,
+            quantity: 1,
+          },
+        ];
+      }
+      saveCart(updated);
+      return updated;
+    });
+  }, []);
 
   const benefits = [
     {
@@ -346,7 +593,7 @@ export default function BraceletsPage() {
                 key={product.id}
                 product={product}
                 index={index}
-                onOrder={() => window.open('/order-bracelets.html', '_blank')}
+                onAddToCart={handleAddToCart}
               />
             ))}
           </div>
@@ -539,6 +786,7 @@ export default function BraceletsPage() {
         </div>
       </footer>
       <WhatsAppButton />
+      <CartBar items={cartItems} />
     </div>
   );
 }
