@@ -1046,7 +1046,42 @@ fbq('track', 'PageView');
 
     <script>
       var CART_KEY = 'orzi_cart';
-      var SHIPPING_FLAT = 60;
+
+      var SHIPPING_RATES = {
+        'القاهرة': 99,
+        'الجيزة': 99,
+        'الإسكندرية': 114,
+        'القليوبية': 114,
+        'الدقهلية': 120,
+        'الشرقية': 120,
+        'الغربية': 120,
+        'المنوفية': 120,
+        'البحيرة': 120,
+        'كفر الشيخ': 120,
+        'دمياط': 120,
+        'بورسعيد': 125,
+        'الإسماعيلية': 125,
+        'السويس': 125,
+        'الفيوم': 148,
+        'بني سويف': 148,
+        'المنيا': 148,
+        'أسيوط': 148,
+        'سوهاج': 148,
+        'قنا': 160,
+        'الأقصر': 160,
+        'أسوان': 160,
+        'البحر الأحمر': 225,
+        'مطروح': 225,
+        'جنوب سيناء': 225,
+        'شمال سيناء': 225,
+        'الوادي الجديد': 225
+      };
+
+      function getShippingCost() {
+        var gov = document.getElementById('governorate');
+        if (!gov || !gov.value) return 0;
+        return SHIPPING_RATES[gov.value] || 0;
+      }
 
       function loadCart() {
         try {
@@ -1124,7 +1159,12 @@ fbq('track', 'PageView');
         /* Summary */
         var subtotal = calcSubtotal(items);
         var totalItems = calcTotalItems(items);
-        var total = subtotal + SHIPPING_FLAT;
+        var shipping = getShippingCost();
+        var total = subtotal + shipping;
+
+        var shippingLabel = shipping > 0
+          ? shipping + ' جنيه'
+          : 'اختر المحافظة';
 
         html +=
           '<div class="cart-summary">' +
@@ -1134,7 +1174,7 @@ fbq('track', 'PageView');
             '</div>' +
             '<div class="summary-row">' +
               '<span class="summary-row__label">رسوم الشحن</span>' +
-              '<span class="summary-row__value">' + SHIPPING_FLAT + ' جنيه</span>' +
+              '<span class="summary-row__value">' + shippingLabel + '</span>' +
             '</div>' +
             '<div class="summary-row summary-row--total">' +
               '<span class="summary-row__label">الإجمالي</span>' +
@@ -1228,6 +1268,7 @@ fbq('track', 'PageView');
         }
 
         clearError('governorateError');
+        renderCart();
       });
 
       function validateForm() {
@@ -1303,20 +1344,10 @@ fbq('track', 'PageView');
         var items = loadCart();
         var subtotal = calcSubtotal(items);
         var totalItems = calcTotalItems(items);
-        var totalPrice = subtotal + SHIPPING_FLAT;
+        var shipping = getShippingCost();
+        var totalPrice = subtotal + shipping;
 
-        /* Build product quantity fields for all 8 products */
-        var qtyFields = {
-          auraQty: 0,
-          harmoniaQty: 0,
-          sophiaQty: 0,
-          kairoQty: 0,
-          aureliaQty: 0,
-          soleaQty: 0,
-          rubraQty: 0,
-          veraQty: 0
-        };
-
+        /* Build product quantity fields for all 8 products (default 0) */
         var productNameMap = {
           'AURA': 'auraQty',
           'HARMONIA': 'harmoniaQty',
@@ -1329,6 +1360,17 @@ fbq('track', 'PageView');
           'VERA': 'veraQty'
         };
 
+        var qtyFields = {
+          auraQty: 0,
+          harmoniaQty: 0,
+          sophiaQty: 0,
+          kairoQty: 0,
+          aureliaQty: 0,
+          soleaQty: 0,
+          rubraQty: 0,
+          veraQty: 0
+        };
+
         items.forEach(function(item) {
           var fieldKey = productNameMap[item.name];
           if (fieldKey) {
@@ -1336,21 +1378,39 @@ fbq('track', 'PageView');
           }
         });
 
-        var formData = Object.assign({
+        /* Build detailed address string from form fields */
+        var addressParts = [];
+        var streetVal = document.getElementById('street').value.trim();
+        var buildingVal = document.getElementById('building').value.trim();
+        var floorVal = document.getElementById('floor').value.trim();
+        var landmarksVal = document.getElementById('landmarks').value.trim();
+        if (streetVal) addressParts.push('الشارع: ' + streetVal);
+        if (buildingVal) addressParts.push('مبنى: ' + buildingVal);
+        if (floorVal) addressParts.push('دور: ' + floorVal);
+        if (landmarksVal) addressParts.push('معالم: ' + landmarksVal);
+        var detailedAddress = addressParts.join('، ');
+
+        /* Optional notes from landmarks field */
+        var notes = landmarksVal || '';
+
+        var formData = {
           name: document.getElementById('name').value.trim(),
           phone: document.getElementById('phone').value.trim(),
           altPhone: document.getElementById('altPhone').value.trim(),
           governorate: document.getElementById('governorate').value,
           area: document.getElementById('area').value,
-          street: document.getElementById('street').value.trim(),
-          building: document.getElementById('building').value.trim(),
-          floor: document.getElementById('floor').value.trim(),
-          landmarks: document.getElementById('landmarks').value.trim(),
-          subtotal: subtotal,
-          shipping: SHIPPING_FLAT,
+          address: detailedAddress,
+          auraQty: qtyFields.auraQty,
+          harmoniaQty: qtyFields.harmoniaQty,
+          sophiaQty: qtyFields.sophiaQty,
+          kairoQty: qtyFields.kairoQty,
+          aureliaQty: qtyFields.aureliaQty,
+          soleaQty: qtyFields.soleaQty,
+          rubraQty: qtyFields.rubraQty,
+          veraQty: qtyFields.veraQty,
           totalPrice: totalPrice,
-          timestamp: new Date().toISOString()
-        }, qtyFields);
+          notes: notes
+        };
 
         try {
           var GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyvM5Bac-SO4Q-EppNccPc2xJT_7qeKRO_QneXGd3B3OQuT45i75kHLCZrxS3SQc2Gx/exec';
