@@ -163,7 +163,7 @@ export const products: Product[] = [
   {
     id: 'rubra-bracelet',
     name: 'RUBRA',
-    nameAr: 'روبرا - تصميم أحمر',
+    nameAr: 'روبرا - نحاس أحمر',
     slug: 'rubra-bracelet',
     price: 440,
     collection: 'bracelets',
