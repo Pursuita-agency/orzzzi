@@ -49,7 +49,7 @@ export default function FeaturedBraceletsBlock() {
             </h3>
             <div className="w-10 h-px bg-[#243247] opacity-25 mb-6" />
             <p className="text-lg text-[#243247] opacity-65 leading-relaxed mb-2">
-              سِتَّة تصاميم. فلسفة واحدة.
+              ٨ تصاميم. فلسفة واحدة.
             </p>
             <p className="text-sm text-[#243247] opacity-45 leading-loose max-w-xs">
               Harmonia · Aura · Sophia · Kairo · Aurelia · Solea <br /> كل قطعة تحكي قصة من الأصالة والرقي.
