@@ -510,7 +510,7 @@ export default function BraceletsPage() {
                 من أصالة الماضي إلى معصمك
               </p>
               <p className="text-base text-[#243247] opacity-55 leading-loose max-w-md" style={{ fontFamily: "'Amiri', serif" }}>
-                سِتَّة تصاميم. فلسفة واحدة. حضور لا يُنسى.
+                ٨ تصاميم. فلسفة واحدة. حضور لا يُنسى.
               </p>
             </div>
 
