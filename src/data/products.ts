@@ -175,9 +175,9 @@ export const products: Product[] = [
     isNew: true,
     specs: {
       material: 'Red Plated Brass',
-      materialAr: 'نحاس مطلي بالأحمر',
+      materialAr: 'نحاس أحمر',
       coating: 'Red Plating',
-      coatingAr: 'طلاء أحمر',
+      coatingAr: 'أحمر',
       resistance: 'Anti-tarnish & Corrosion Resistant',
       resistanceAr: 'مقاوم لتغير اللون والصدأ',
       size: 'Adjustable for all wrist sizes',
