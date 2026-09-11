@@ -205,85 +205,227 @@ fbq('track', 'PageView');
         margin-top: 6px;
       }
 
-      .bracelets-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-        gap: 24px;
-        margin-bottom: 32px;
+      /* ---------- Cart Items ---------- */
+      .cart-items {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        margin-bottom: 24px;
       }
 
-      .bracelet-card {
+      .cart-item {
+        display: flex;
+        align-items: center;
+        gap: 16px;
         background: rgba(255, 255, 255, 0.6);
-        border: 2px solid rgba(36, 50, 71, 0.15);
+        border: 1px solid rgba(36, 50, 71, 0.12);
         border-radius: 12px;
-        padding: 20px;
+        padding: 16px;
         transition: all 0.3s ease;
-        cursor: pointer;
       }
 
-      .bracelet-card:hover {
-        border-color: rgba(36, 50, 71, 0.4);
+      .cart-item:hover {
+        border-color: rgba(36, 50, 71, 0.25);
         background: rgba(255, 255, 255, 0.8);
-        transform: translateY(-4px);
-        box-shadow: 0 8px 24px rgba(36, 50, 71, 0.12);
       }
 
-      .bracelet-image {
-        width: 100%;
-        height: 200px;
+      .cart-item__image {
+        width: 72px;
+        height: 72px;
         object-fit: cover;
         border-radius: 8px;
-        margin-bottom: 16px;
+        flex-shrink: 0;
       }
 
-      .bracelet-name {
+      .cart-item__info {
+        flex: 1;
+        min-width: 0;
+      }
+
+      .cart-item__name {
         font-family: 'Cinzel', serif;
-        font-size: 20px;
+        font-size: 18px;
         font-weight: 600;
         color: #243247;
-        text-align: center;
-        margin-bottom: 8px;
+        margin-bottom: 4px;
       }
 
-      .bracelet-label {
-        font-size: 13px;
+      .cart-item__price {
+        font-size: 14px;
         color: #243247;
         opacity: 0.6;
-        text-align: center;
-        margin-bottom: 16px;
-        min-height: 20px;
       }
 
-      .quantity-control {
+      .cart-item__qty {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-shrink: 0;
+      }
+
+      .qty-btn {
+        width: 32px;
+        height: 32px;
+        border: 1px solid rgba(36, 50, 71, 0.2);
+        border-radius: 6px;
+        background: rgba(255, 255, 255, 0.9);
+        color: #243247;
+        font-size: 18px;
+        font-weight: 700;
+        cursor: pointer;
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 12px;
+        transition: all 0.2s ease;
+        line-height: 1;
       }
 
-      .quantity-label {
-        font-size: 14px;
+      .qty-btn:hover {
+        background: #243247;
+        color: #e7ddcc;
+        border-color: #243247;
+      }
+
+      .qty-btn:active {
+        transform: scale(0.92);
+      }
+
+      .qty-value {
+        font-family: 'Amiri', serif;
+        font-size: 16px;
+        font-weight: 700;
         color: #243247;
-        opacity: 0.75;
+        min-width: 28px;
+        text-align: center;
       }
 
-      .quantity-input {
-        width: 70px;
-        padding: 8px 12px;
+      .cart-item__line-total {
+        font-family: 'Amiri', serif;
+        font-size: 16px;
+        font-weight: 700;
+        color: #243247;
+        flex-shrink: 0;
+        min-width: 80px;
         text-align: center;
-        border: 1px solid rgba(36, 50, 71, 0.2);
+      }
+
+      .cart-item__remove {
+        width: 32px;
+        height: 32px;
+        border: none;
+        background: transparent;
+        color: #c44;
+        cursor: pointer;
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+        flex-shrink: 0;
         border-radius: 6px;
+      }
+
+      .cart-item__remove:hover {
+        background: rgba(196, 68, 68, 0.1);
+      }
+
+      /* ---------- Cart Summary ---------- */
+      .cart-summary {
+        background: rgba(36, 50, 71, 0.04);
+        border-radius: 12px;
+        padding: 24px;
+        margin-bottom: 8px;
+      }
+
+      .summary-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 0;
+        font-size: 16px;
+        color: #243247;
+      }
+
+      .summary-row__label {
+        opacity: 0.7;
+      }
+
+      .summary-row__value {
+        font-weight: 600;
+      }
+
+      .summary-row--total {
+        border-top: 1px solid rgba(36, 50, 71, 0.15);
+        margin-top: 8px;
+        padding-top: 16px;
+        font-size: 20px;
+        font-weight: 700;
+      }
+
+      .summary-row--total .summary-row__value {
+        font-family: 'Cinzel', serif;
+        font-size: 22px;
+      }
+
+      /* ---------- Empty Cart ---------- */
+      .empty-cart {
+        text-align: center;
+        padding: 60px 24px;
+      }
+
+      .empty-cart__icon {
+        width: 72px;
+        height: 72px;
+        margin: 0 auto 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: rgba(36, 50, 71, 0.05);
+      }
+
+      .empty-cart__icon svg {
+        width: 36px;
+        height: 36px;
+        stroke: #243247;
+        opacity: 0.4;
+      }
+
+      .empty-cart__title {
+        font-family: 'Amiri', serif;
+        font-size: 24px;
+        font-weight: 700;
+        color: #243247;
+        margin-bottom: 12px;
+      }
+
+      .empty-cart__text {
+        font-size: 16px;
+        color: #243247;
+        opacity: 0.6;
+        margin-bottom: 32px;
+      }
+
+      .empty-cart__btn {
+        display: inline-block;
+        padding: 14px 40px;
+        background: #243247;
+        color: #e7ddcc;
+        border: none;
+        border-radius: 8px;
         font-family: 'Amiri', serif;
         font-size: 16px;
         font-weight: 600;
-        color: #243247;
-        background: rgba(255, 255, 255, 0.9);
+        letter-spacing: 0.05em;
+        cursor: pointer;
+        text-decoration: none;
+        transition: all 0.3s ease;
       }
 
-      .quantity-input:focus {
-        outline: none;
-        border-color: #243247;
-        background: #ffffff;
+      .empty-cart__btn:hover {
+        background: #1a2b3c;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(36, 50, 71, 0.25);
       }
 
       .trust-section {
@@ -504,24 +646,6 @@ fbq('track', 'PageView');
           font-size: 18px;
         }
 
-        .bracelets-grid {
-          grid-template-columns: repeat(2, 1fr);
-          gap: 16px;
-        }
-
-        .bracelet-image {
-          height: 140px;
-        }
-
-        .bracelet-name {
-          font-size: 16px;
-        }
-
-        .bracelet-label {
-          font-size: 11px;
-          margin-bottom: 10px;
-        }
-
         .header-content {
           flex-direction: column;
           gap: 16px;
@@ -539,17 +663,27 @@ fbq('track', 'PageView');
         .modal-content {
           padding: 32px 24px;
         }
+
+        .cart-item {
+          flex-wrap: wrap;
+        }
+
+        .cart-item__image {
+          width: 60px;
+          height: 60px;
+        }
+
+        .cart-item__name {
+          font-size: 16px;
+        }
+
+        .cart-item__line-total {
+          min-width: 60px;
+          font-size: 14px;
+        }
       }
 
       @media (max-width: 480px) {
-        .bracelets-grid {
-          grid-template-columns: 1fr;
-        }
-
-        .bracelet-image {
-          height: 200px;
-        }
-
         .hero-title {
           font-size: 28px;
         }
@@ -560,6 +694,16 @@ fbq('track', 'PageView');
 
         .form-container {
           padding: 24px 16px;
+        }
+
+        .cart-item__qty {
+          gap: 6px;
+        }
+
+        .qty-btn {
+          width: 28px;
+          height: 28px;
+          font-size: 16px;
         }
       }
 
@@ -660,333 +804,228 @@ fbq('track', 'PageView');
 
       <div class="container">
         <div class="form-container">
-          <h3 class="section-title">اختر التصميم والكمية</h3>
+          <h3 class="section-title">سلة المشتريات</h3>
 
-          <form id="orderForm">
-            <div class="bracelets-grid">
-              <div class="bracelet-card">
-                <img src="/aura.jpg" alt="AURA" class="bracelet-image" />
-                <h4 class="bracelet-name">AURA</h4>
-                <p class="bracelet-label">نحاس مطلي</p>
-                <div class="quantity-control">
-                  <label for="auraQty" class="quantity-label">الكمية:</label>
-                  <input
-                    type="number"
-                    id="auraQty"
-                    name="auraQty"
-                    min="0"
-                    max="10"
-                    value="0"
-                    class="quantity-input"
-                  />
-                </div>
+          <!-- Cart display area -->
+          <div id="cartSection"></div>
+
+          <!-- Form area (hidden when cart is empty) -->
+          <div id="formArea" style="display: none;">
+            <form id="orderForm">
+              <div class="divider"></div>
+
+              <h3 class="section-title">معلومات التوصيل</h3>
+
+              <div class="form-group">
+                <label class="form-label">
+                  <span class="required">*</span>
+                  الاسم
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  class="form-input"
+                  placeholder="أدخل اسمك الكامل"
+                  required
+                />
+                <div id="nameError" class="error-message"></div>
               </div>
 
-              <div class="bracelet-card">
-                <img src="/harmonia.jpg" alt="HARMONIA" class="bracelet-image" />
-                <h4 class="bracelet-name">HARMONIA</h4>
-                <p class="bracelet-label">نحاس مطلي</p>
-                <div class="quantity-control">
-                  <label for="harmoniaQty" class="quantity-label">الكمية:</label>
-                  <input
-                    type="number"
-                    id="harmoniaQty"
-                    name="harmoniaQty"
-                    min="0"
-                    max="10"
-                    value="0"
-                    class="quantity-input"
-                  />
-                </div>
+              <div class="form-group">
+                <label class="form-label">
+                  <span class="required">*</span>
+                  رقم الهاتف
+                </label>
+                <input
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  class="form-input"
+                  placeholder="01xxxxxxxxx"
+                  required
+                />
+                <div id="phoneError" class="error-message"></div>
               </div>
 
-              <div class="bracelet-card">
-                <img src="/sophia.jpg" alt="SOPHIA" class="bracelet-image" />
-                <h4 class="bracelet-name">SOPHIA</h4>
-                <p class="bracelet-label">نحاس مطلي</p>
-                <div class="quantity-control">
-                  <label for="sophiaQty" class="quantity-label">الكمية:</label>
-                  <input
-                    type="number"
-                    id="sophiaQty"
-                    name="sophiaQty"
-                    min="0"
-                    max="10"
-                    value="0"
-                    class="quantity-input"
-                  />
-                </div>
+              <div class="form-group">
+                <label class="form-label">
+                  رقم هاتف بديل
+                </label>
+                <input
+                  type="tel"
+                  id="altPhone"
+                  name="altPhone"
+                  class="form-input"
+                  placeholder="01xxxxxxxxx"
+                />
               </div>
 
-              <div class="bracelet-card">
-                <img src="/kairo.jpg" alt="KAÏRO" class="bracelet-image" />
-                <h4 class="bracelet-name">KAÏRO</h4>
-                <p class="bracelet-label">نحاس أحمر</p>
-                <div class="quantity-control">
-                  <label for="kairoQty" class="quantity-label">الكمية:</label>
-                  <input
-                    type="number"
-                    id="kairoQty"
-                    name="kairoQty"
-                    min="0"
-                    max="10"
-                    value="0"
-                    class="quantity-input"
-                  />
-                </div>
+              <div class="form-group">
+                <label class="form-label">
+                  <span class="required">*</span>
+                  المحافظة
+                </label>
+                <select id="governorate" name="governorate" class="form-select" required>
+                  <option value="">اختر المحافظة</option>
+                  <option value="القاهرة">القاهرة</option>
+                  <option value="الجيزة">الجيزة</option>
+                  <option value="الإسكندرية">الإسكندرية</option>
+                  <option value="القليوبية">القليوبية</option>
+                  <option value="الدقهلية">الدقهلية</option>
+                  <option value="الشرقية">الشرقية</option>
+                  <option value="الغربية">الغربية</option>
+                  <option value="المنوفية">المنوفية</option>
+                  <option value="البحيرة">البحيرة</option>
+                  <option value="كفر الشيخ">كفر الشيخ</option>
+                  <option value="دمياط">دمياط</option>
+                  <option value="بورسعيد">بورسعيد</option>
+                  <option value="الإسماعيلية">الإسماعيلية</option>
+                  <option value="السويس">السويس</option>
+                  <option value="الفيوم">الفيوم</option>
+                  <option value="بني سويف">بني سويف</option>
+                  <option value="المنيا">المنيا</option>
+                  <option value="أسيوط">أسيوط</option>
+                  <option value="سوهاج">سوهاج</option>
+                  <option value="قنا">قنا</option>
+                  <option value="الأقصر">الأقصر</option>
+                  <option value="أسوان">أسوان</option>
+                  <option value="البحر الأحمر">البحر الأحمر</option>
+                  <option value="مطروح">مطروح</option>
+                  <option value="جنوب سيناء">جنوب سيناء</option>
+                  <option value="شمال سيناء">شمال سيناء</option>
+                  <option value="الوادي الجديد">الوادي الجديد</option>
+                </select>
+                <div id="governorateError" class="error-message"></div>
               </div>
 
-              <div class="bracelet-card">
-                <img src="/aurelia.jpg" alt="AURELIA" class="bracelet-image" />
-                <h4 class="bracelet-name">AURELIA</h4>
-                <p class="bracelet-label">مطلية بالذهب</p>
-                <div class="quantity-control">
-                  <label for="aureliaQty" class="quantity-label">الكمية:</label>
-                  <input
-                    type="number"
-                    id="aureliaQty"
-                    name="aureliaQty"
-                    min="0"
-                    max="10"
-                    value="0"
-                    class="quantity-input"
-                  />
-                </div>
+              <div class="form-group">
+                <label class="form-label">
+                  <span class="required">*</span>
+                  المنطقة
+                </label>
+                <select id="area" name="area" class="form-select" required disabled>
+                  <option value="">اختر المنطقة</option>
+                </select>
+                <div id="areaError" class="error-message"></div>
               </div>
 
-              <div class="bracelet-card">
-                <img src="/solea.jpg" alt="SOLÉA" class="bracelet-image" />
-                <h4 class="bracelet-name">SOLÉA</h4>
-                <p class="bracelet-label">نحاس أصفر</p>
-                <div class="quantity-control">
-                  <label for="soleaQty" class="quantity-label">الكمية:</label>
-                  <input
-                    type="number"
-                    id="soleaQty"
-                    name="soleaQty"
-                    min="0"
-                    max="10"
-                    value="0"
-                    class="quantity-input"
-                  />
-                </div>
+              <div class="form-group">
+                <label class="form-label">
+                  <span class="required">*</span>
+                  العنوان
+                </label>
+                <input
+                  type="text"
+                  id="street"
+                  name="street"
+                  class="form-input"
+                  placeholder="المنطقة / إسم الشارع"
+                  required
+                />
+                <div id="streetError" class="error-message"></div>
               </div>
-            </div>
-            <div id="quantityError" class="error-message" style="text-align: center; margin-top: 12px;"></div>
 
-            <div class="divider"></div>
+              <div class="form-group">
+                <label class="form-label">
+                  <span class="required">*</span>
+                  رقم المبنى
+                </label>
+                <input
+                  type="text"
+                  id="building"
+                  name="building"
+                  class="form-input"
+                  placeholder="أدخل رقم المبنى"
+                  required
+                />
+                <div id="buildingError" class="error-message"></div>
+              </div>
 
-            <h3 class="section-title">معلومات التوصيل</h3>
+              <div class="form-group">
+                <label class="form-label">
+                  الدور
+                </label>
+                <input
+                  type="text"
+                  id="floor"
+                  name="floor"
+                  class="form-input"
+                  placeholder="أدخل رقم الدور (اختياري)"
+                />
+              </div>
 
-            <div class="form-group">
-              <label class="form-label">
-                <span class="required">*</span>
-                الاسم
-              </label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                class="form-input"
-                placeholder="أدخل اسمك الكامل"
-                required
-              />
-              <div id="nameError" class="error-message"></div>
-            </div>
+              <div class="form-group">
+                <label class="form-label">
+                  معالم قريبة
+                </label>
+                <input
+                  type="text"
+                  id="landmarks"
+                  name="landmarks"
+                  class="form-input"
+                  placeholder="أدخل معالم قريبة (اختياري)"
+                />
+              </div>
 
-            <div class="form-group">
-              <label class="form-label">
-                <span class="required">*</span>
-                رقم الهاتف
-              </label>
-              <input
-                type="tel"
-                id="phone"
-                name="phone"
-                class="form-input"
-                placeholder="01xxxxxxxxx"
-                required
-              />
-              <div id="phoneError" class="error-message"></div>
-            </div>
-
-            <div class="form-group">
-              <label class="form-label">
-                رقم هاتف بديل
-              </label>
-              <input
-                type="tel"
-                id="altPhone"
-                name="altPhone"
-                class="form-input"
-                placeholder="01xxxxxxxxx"
-              />
-            </div>
-
-            <div class="form-group">
-              <label class="form-label">
-                <span class="required">*</span>
-                المحافظة
-              </label>
-              <select id="governorate" name="governorate" class="form-select" required>
-                <option value="">اختر المحافظة</option>
-                <option value="القاهرة">القاهرة</option>
-                <option value="الجيزة">الجيزة</option>
-                <option value="الإسكندرية">الإسكندرية</option>
-                <option value="القليوبية">القليوبية</option>
-                <option value="الدقهلية">الدقهلية</option>
-                <option value="الشرقية">الشرقية</option>
-                <option value="الغربية">الغربية</option>
-                <option value="المنوفية">المنوفية</option>
-                <option value="البحيرة">البحيرة</option>
-                <option value="كفر الشيخ">كفر الشيخ</option>
-                <option value="دمياط">دمياط</option>
-                <option value="بورسعيد">بورسعيد</option>
-                <option value="الإسماعيلية">الإسماعيلية</option>
-                <option value="السويس">السويس</option>
-                <option value="الفيوم">الفيوم</option>
-                <option value="بني سويف">بني سويف</option>
-                <option value="المنيا">المنيا</option>
-                <option value="أسيوط">أسيوط</option>
-                <option value="سوهاج">سوهاج</option>
-                <option value="قنا">قنا</option>
-                <option value="الأقصر">الأقصر</option>
-                <option value="أسوان">أسوان</option>
-                <option value="البحر الأحمر">البحر الأحمر</option>
-                <option value="مطروح">مطروح</option>
-                <option value="جنوب سيناء">جنوب سيناء</option>
-                <option value="شمال سيناء">شمال سيناء</option>
-                <option value="الوادي الجديد">الوادي الجديد</option>
-              </select>
-              <div id="governorateError" class="error-message"></div>
-            </div>
-
-            <div class="form-group">
-              <label class="form-label">
-                <span class="required">*</span>
-                المنطقة
-              </label>
-              <select id="area" name="area" class="form-select" required disabled>
-                <option value="">اختر المنطقة</option>
-              </select>
-              <div id="areaError" class="error-message"></div>
-            </div>
-
-            <div class="form-group">
-              <label class="form-label">
-                <span class="required">*</span>
-                العنوان
-              </label>
-              <input
-                type="text"
-                id="street"
-                name="street"
-                class="form-input"
-                placeholder="المنطقة / إسم الشارع"
-                required
-              />
-              <div id="streetError" class="error-message"></div>
-            </div>
-
-            <div class="form-group">
-              <label class="form-label">
-                <span class="required">*</span>
-                رقم المبنى
-              </label>
-              <input
-                type="text"
-                id="building"
-                name="building"
-                class="form-input"
-                placeholder="أدخل رقم المبنى"
-                required
-              />
-              <div id="buildingError" class="error-message"></div>
-            </div>
-
-            <div class="form-group">
-              <label class="form-label">
-                الدور
-              </label>
-              <input
-                type="text"
-                id="floor"
-                name="floor"
-                class="form-input"
-                placeholder="أدخل رقم الدور (اختياري)"
-              />
-            </div>
-
-            <div class="form-group">
-              <label class="form-label">
-                معالم قريبة
-              </label>
-              <input
-                type="text"
-                id="landmarks"
-                name="landmarks"
-                class="form-input"
-                placeholder="أدخل معالم قريبة (اختياري)"
-              />
-            </div>
-
-            <div class="trust-section">
-              <div class="trust-grid">
-                <div class="trust-item">
-                  <div class="trust-icon">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                    </svg>
+              <div class="trust-section">
+                <div class="trust-grid">
+                  <div class="trust-item">
+                    <div class="trust-icon">
+                      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                      </svg>
+                    </div>
+                    <h4 class="trust-title">استبدال خلال 14 يوم</h4>
+                    <p class="trust-description">
+                      يمكنك استبدال المنتج خلال 14 يوم من تاريخ الاستلام إذا لم يكن مناسباً لك.
+                    </p>
                   </div>
-                  <h4 class="trust-title">استبدال خلال 14 يوم</h4>
-                  <p class="trust-description">
-                    يمكنك استبدال المنتج خلال 14 يوم من تاريخ الاستلام إذا لم يكن مناسباً لك.
-                  </p>
-                </div>
 
-                <div class="trust-item">
-                  <div class="trust-icon">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                    </svg>
+                  <div class="trust-item">
+                    <div class="trust-icon">
+                      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                      </svg>
+                    </div>
+                    <h4 class="trust-title">توصيل سريع</h4>
+                    <p class="trust-description">
+                      يتم تجهيز الطلب وشحنه خلال 3 إلى 5 أيام عمل.
+                    </p>
                   </div>
-                  <h4 class="trust-title">توصيل سريع</h4>
-                  <p class="trust-description">
-                    يتم تجهيز الطلب وشحنه خلال 3 إلى 5 أيام عمل.
-                  </p>
-                </div>
 
-                <div class="trust-item">
-                  <div class="trust-icon">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
-                    </svg>
+                  <div class="trust-item">
+                    <div class="trust-icon">
+                      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
+                      </svg>
+                    </div>
+                    <h4 class="trust-title">تغليف أنيق</h4>
+                    <p class="trust-description">
+                      كل قطعة من ORZI تأتي بتغليف أنيق يليق بقيمتها.
+                    </p>
                   </div>
-                  <h4 class="trust-title">تغليف أنيق</h4>
-                  <p class="trust-description">
-                    كل قطعة من ORZI تأتي بتغليف أنيق يليق بقيمتها.
-                  </p>
                 </div>
               </div>
+
+              <div class="reassurance-text">
+                طلبك يتم تأكيده مباشرة بعد إرسال النموذج،<br>
+                وسيقوم فريق ORZI بالتواصل معك لتأكيد التفاصيل.
+              </div>
+
+              <button type="submit" id="submitBtn" class="submit-button">
+                أكمل طلبك الآن
+              </button>
+
+              <p class="payment-note">
+                الدفع عند الاستلام متاح داخل مصر.
+              </p>
+            </form>
+
+            <div class="closing-section">
+              <h2 class="closing-logo">ORZI</h2>
+              <p class="closing-tagline">خالد. راقٍ. أصيل.</p>
             </div>
-
-            <div class="reassurance-text">
-              طلبك يتم تأكيده مباشرة بعد إرسال النموذج،<br>
-              وسيقوم فريق ORZI بالتواصل معك لتأكيد التفاصيل.
-            </div>
-
-            <button type="submit" id="submitBtn" class="submit-button">
-              أكمل طلبك الآن
-            </button>
-
-            <p class="payment-note">
-              الدفع عند الاستلام متاح داخل مصر.
-            </p>
-          </form>
-
-          <div class="closing-section">
-            <h2 class="closing-logo">ORZI</h2>
-            <p class="closing-tagline">خالد. راقٍ. أصيل.</p>
           </div>
         </div>
       </div>
@@ -1006,9 +1045,127 @@ fbq('track', 'PageView');
     </div>
 
     <script>
-      const PRICES = { aura: 480, harmonia: 480, sophia: 480, kairo: 520, aurelia: 560, solea: 480 };
+      var CART_KEY = 'orzi_cart';
+      var SHIPPING_FLAT = 60;
 
-const governorates = {
+      function loadCart() {
+        try {
+          var raw = localStorage.getItem(CART_KEY);
+          return raw ? JSON.parse(raw) : [];
+        } catch (e) {
+          return [];
+        }
+      }
+
+      function saveCart(items) {
+        localStorage.setItem(CART_KEY, JSON.stringify(items));
+      }
+
+      function calcSubtotal(items) {
+        return items.reduce(function(sum, item) {
+          return sum + item.price * item.quantity;
+        }, 0);
+      }
+
+      function calcTotalItems(items) {
+        return items.reduce(function(sum, item) {
+          return sum + item.quantity;
+        }, 0);
+      }
+
+      /* ---------- Render Cart ---------- */
+
+      function renderCart() {
+        var items = loadCart();
+        var cartSection = document.getElementById('cartSection');
+        var formArea = document.getElementById('formArea');
+
+        if (items.length === 0) {
+          formArea.style.display = 'none';
+          cartSection.innerHTML =
+            '<div class="empty-cart">' +
+              '<div class="empty-cart__icon">' +
+                '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24">' +
+                  '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />' +
+                '</svg>' +
+              '</div>' +
+              '<h3 class="empty-cart__title">سلتك فارغة حالياً</h3>' +
+              '<p class="empty-cart__text">لم تقم بإضافة أي منتجات بعد. تصفح تشكيلتنا واختر قطعتك المفضلة.</p>' +
+              '<a href="/bracelets.html" class="empty-cart__btn">تصفح التشكيلة</a>' +
+            '</div>';
+          return;
+        }
+
+        formArea.style.display = 'block';
+
+        var html = '<div class="cart-items">';
+
+        items.forEach(function(item, idx) {
+          var lineTotal = item.price * item.quantity;
+          html +=
+            '<div class="cart-item" data-idx="' + idx + '">' +
+              '<img src="' + item.image + '" alt="' + item.name + '" class="cart-item__image" />' +
+              '<div class="cart-item__info">' +
+                '<div class="cart-item__name">' + item.name + '</div>' +
+                '<div class="cart-item__price">' + item.price + ' جنيه / قطعة</div>' +
+              '</div>' +
+              '<div class="cart-item__qty">' +
+                '<button type="button" class="qty-btn" onclick="changeQty(' + idx + ', -1)">\u2212</button>' +
+                '<span class="qty-value">' + item.quantity + '</span>' +
+                '<button type="button" class="qty-btn" onclick="changeQty(' + idx + ', 1)">+</button>' +
+              '</div>' +
+              '<div class="cart-item__line-total">' + lineTotal + ' جنيه</div>' +
+              '<button type="button" class="cart-item__remove" onclick="removeItem(' + idx + ')" aria-label="حذف">\u00d7</button>' +
+            '</div>';
+        });
+
+        html += '</div>';
+
+        /* Summary */
+        var subtotal = calcSubtotal(items);
+        var totalItems = calcTotalItems(items);
+        var total = subtotal + SHIPPING_FLAT;
+
+        html +=
+          '<div class="cart-summary">' +
+            '<div class="summary-row">' +
+              '<span class="summary-row__label">المجموع الفرعي (' + totalItems + ' قطعة)</span>' +
+              '<span class="summary-row__value">' + subtotal + ' جنيه</span>' +
+            '</div>' +
+            '<div class="summary-row">' +
+              '<span class="summary-row__label">رسوم الشحن</span>' +
+              '<span class="summary-row__value">' + SHIPPING_FLAT + ' جنيه</span>' +
+            '</div>' +
+            '<div class="summary-row summary-row--total">' +
+              '<span class="summary-row__label">الإجمالي</span>' +
+              '<span class="summary-row__value">' + total + ' جنيه</span>' +
+            '</div>' +
+          '</div>';
+
+        cartSection.innerHTML = html;
+      }
+
+      function changeQty(idx, delta) {
+        var items = loadCart();
+        if (!items[idx]) return;
+        items[idx].quantity += delta;
+        if (items[idx].quantity <= 0) {
+          items.splice(idx, 1);
+        }
+        saveCart(items);
+        renderCart();
+      }
+
+      function removeItem(idx) {
+        var items = loadCart();
+        items.splice(idx, 1);
+        saveCart(items);
+        renderCart();
+      }
+
+      /* ---------- Governorate / Area ---------- */
+
+      var governorates = {
         'القاهرة': ['المعادي', 'التجمع الخامس', 'التجمع الأول', 'مدينة نصر', 'مصر الجديدة', 'وسط البلد', 'شبرا', 'عين شمس', 'الزمالك', 'جاردن سيتي', 'حلوان', 'المقطم', 'الشروق', 'بدر', 'العاصمة الإدارية', 'المرج', 'المطرية', 'الزيتون', 'حدائق القبة', 'الوايلي', 'السيدة زينب'],
         'الجيزة': ['الدقي', 'المهندسين', 'الهرم', 'فيصل', 'أكتوبر', 'الشيخ زايد', 'العجوزة', 'إمبابة', 'حدائق الأهرام', 'العمرانية', 'البدرشين', 'العياط', 'أوسيم', 'كرداسة', 'الصف', 'أبو النمرس'],
         'الإسكندرية': ['سموحة', 'محرم بك', 'سيدي جابر', 'المنتزة', 'العجمي', 'ميامي', 'لوران', 'كفر عبده', 'الشاطبي', 'جليم', 'العامريية', 'المندرة', 'العصافرة', 'برج العرب'],
@@ -1025,7 +1182,7 @@ const governorates = {
         'السويس': ['حي السويس', 'حي الأربعين', 'حي عتاقة', 'حي الفيصل', 'حي الجناين'],
         'الفيوم': ['الفيوم', 'سنورس', 'طامية', 'إطسا', 'أبشواي', 'يوسف الصديق'],
         'بني سويف': ['بني سويف', 'بني سويف الجديدة', 'الواسطى', 'ناصر', 'إهناسيا', 'ببا', 'الفشن'],
-        'المنيا': ['المنيا', 'المنيا الجديدة', 'ملوي', 'مغSimplified مغاغة', 'بني مزار', 'أبو قرقاص', 'سمالوط'],
+        'المنيا': ['المنيا', 'المنيا الجديدة', 'ملوي', 'مغاغة', 'بني مزار', 'أبو قرقاص', 'سمالوط'],
         'أسيوط': ['أسيوط', 'أسيوط الجديدة', 'ديروط', 'القوصية', 'أبنوب', 'منفلوط', 'أبو تيج', 'الفتح'],
         'سوهاج': ['سوهاج', 'سوهاج الجديدة', 'أخميم', 'جرجا', 'طهطا', 'البلينا', 'المراغة'],
         'قنا': ['قنا', 'قنا الجديدة', 'نجع حمادي', 'قوص', 'دشنا', 'فرشوط', 'أبو تشت'],
@@ -1035,52 +1192,33 @@ const governorates = {
         'مطروح': ['مرسى مطروح', 'الساحل الشمالي', 'العلمين', 'العلمين الجديدة', 'الحمام', 'سيوة', 'الضبعة'],
         'جنوب سيناء': ['شرم الشيخ', 'دهب', 'نويبع', 'طابا', 'طور سيناء', 'رأس سدر'],
         'شمال سيناء': ['العريش', 'بئر العبد', 'الشيخ زويد'],
-        'الالوادي الجديد': ['الخارجة', 'الداخلة', 'الفرافرة']
+        'الوادي الجديد': ['الخارجة', 'الداخلة', 'الفرافرة']
       };
 
-      const governorateSelect = document.getElementById('governorate');
-      const areaSelect = document.getElementById('area');
-      const form = document.getElementById('orderForm');
-      const submitBtn = document.getElementById('submitBtn');
-      const modal = document.getElementById('successModal');
-
-      function getQuantities() {
-        return {
-          aura: parseInt(document.getElementById('auraQty').value) || 0,
-          harmonia: parseInt(document.getElementById('harmoniaQty').value) || 0,
-          sophia: parseInt(document.getElementById('sophiaQty').value) || 0,
-          kairo: parseInt(document.getElementById('kairoQty').value) || 0,
-          aurelia: parseInt(document.getElementById('aureliaQty').value) || 0,
-          solea: parseInt(document.getElementById('soleaQty').value) || 0,
-        };
-      }
-
-      function calcTotalPrice(qty) {
-        return (qty.aura * PRICES.aura) + (qty.harmonia * PRICES.harmonia) +
-               (qty.sophia * PRICES.sophia) + (qty.kairo * PRICES.kairo) +
-               (qty.aurelia * PRICES.aurelia) + (qty.solea * PRICES.solea);
-      }
-
-      function calcTotalItems(qty) {
-        return qty.aura + qty.harmonia + qty.sophia + qty.kairo + qty.aurelia + qty.solea;
-      }
+      var governorateSelect = document.getElementById('governorate');
+      var areaSelect = document.getElementById('area');
+      var form = document.getElementById('orderForm');
+      var submitBtn = document.getElementById('submitBtn');
+      var modal = document.getElementById('successModal');
 
       function clearError(errorId) {
-        document.getElementById(errorId).textContent = '';
+        var el = document.getElementById(errorId);
+        if (el) el.textContent = '';
       }
 
       function showError(errorId, message) {
-        document.getElementById(errorId).textContent = message;
+        var el = document.getElementById(errorId);
+        if (el) el.textContent = message;
       }
 
       governorateSelect.addEventListener('change', function() {
-        const selectedGov = this.value;
+        var selectedGov = this.value;
         areaSelect.innerHTML = '<option value="">اختر المنطقة</option>';
 
         if (selectedGov && governorates[selectedGov]) {
           areaSelect.disabled = false;
-          governorates[selectedGov].forEach(area => {
-            const option = document.createElement('option');
+          governorates[selectedGov].forEach(function(area) {
+            var option = document.createElement('option');
             option.value = area;
             option.textContent = area;
             areaSelect.appendChild(option);
@@ -1093,17 +1231,17 @@ const governorates = {
       });
 
       function validateForm() {
-        let isValid = true;
+        var isValid = true;
 
-        document.querySelectorAll('.error-message').forEach(el => el.textContent = '');
+        document.querySelectorAll('.error-message').forEach(function(el) { el.textContent = ''; });
 
-        const name = document.getElementById('name').value.trim();
+        var name = document.getElementById('name').value.trim();
         if (!name) {
           showError('nameError', 'الاسم مطلوب');
           isValid = false;
         }
 
-        const phone = document.getElementById('phone').value.trim();
+        var phone = document.getElementById('phone').value.trim();
         if (!phone) {
           showError('phoneError', 'رقم الهاتف مطلوب');
           isValid = false;
@@ -1112,45 +1250,44 @@ const governorates = {
           isValid = false;
         }
 
-        const governorate = document.getElementById('governorate').value;
+        var governorate = document.getElementById('governorate').value;
         if (!governorate) {
           showError('governorateError', 'المحافظة مطلوبة');
           isValid = false;
         }
 
-        const area = document.getElementById('area').value;
+        var area = document.getElementById('area').value;
         if (!area) {
           showError('areaError', 'المنطقة مطلوبة');
           isValid = false;
         }
 
-        const street = document.getElementById('street').value.trim();
+        var street = document.getElementById('street').value.trim();
         if (!street) {
           showError('streetError', 'اسم الشارع مطلوب');
           isValid = false;
         }
 
-        const building = document.getElementById('building').value.trim();
+        var building = document.getElementById('building').value.trim();
         if (!building) {
           showError('buildingError', 'رقم المبنى مطلوب');
           isValid = false;
         }
 
-        const qty = getQuantities();
-        if (calcTotalItems(qty) === 0) {
-          showError('quantityError', 'اختر كمية من منتج واحد على الأقل');
+        var items = loadCart();
+        if (items.length === 0) {
           isValid = false;
         }
 
         return isValid;
       }
 
-      let lastSubmitTime = 0;
+      var lastSubmitTime = 0;
 
       form.addEventListener('submit', async function(e) {
         e.preventDefault();
 
-        const now = Date.now();
+        var now = Date.now();
         if (now - lastSubmitTime < 1000) {
           return;
         }
@@ -1163,9 +1300,43 @@ const governorates = {
         submitBtn.disabled = true;
         submitBtn.textContent = 'جاري الإرسال...';
 
-        const qty = getQuantities();
+        var items = loadCart();
+        var subtotal = calcSubtotal(items);
+        var totalItems = calcTotalItems(items);
+        var totalPrice = subtotal + SHIPPING_FLAT;
 
-        const formData = {
+        /* Build product quantity fields for all 8 products */
+        var qtyFields = {
+          auraQty: 0,
+          harmoniaQty: 0,
+          sophiaQty: 0,
+          kairoQty: 0,
+          aureliaQty: 0,
+          soleaQty: 0,
+          rubraQty: 0,
+          veraQty: 0
+        };
+
+        var productNameMap = {
+          'AURA': 'auraQty',
+          'HARMONIA': 'harmoniaQty',
+          'SOPHIA': 'sophiaQty',
+          'KA\u00efRO': 'kairoQty',
+          'KAÏRO': 'kairoQty',
+          'AURELIA': 'aureliaQty',
+          'SOLÉA': 'soleaQty',
+          'RUBRA': 'rubraQty',
+          'VERA': 'veraQty'
+        };
+
+        items.forEach(function(item) {
+          var fieldKey = productNameMap[item.name];
+          if (fieldKey) {
+            qtyFields[fieldKey] += item.quantity;
+          }
+        });
+
+        var formData = Object.assign({
           name: document.getElementById('name').value.trim(),
           phone: document.getElementById('phone').value.trim(),
           altPhone: document.getElementById('altPhone').value.trim(),
@@ -1175,18 +1346,14 @@ const governorates = {
           building: document.getElementById('building').value.trim(),
           floor: document.getElementById('floor').value.trim(),
           landmarks: document.getElementById('landmarks').value.trim(),
-          auraQty: qty.aura,
-          harmoniaQty: qty.harmonia,
-          sophiaQty: qty.sophia,
-          kairoQty: qty.kairo,
-          aureliaQty: qty.aurelia,
-          soleaQty: qty.solea,
-          totalPrice: calcTotalPrice(qty),
+          subtotal: subtotal,
+          shipping: SHIPPING_FLAT,
+          totalPrice: totalPrice,
           timestamp: new Date().toISOString()
-        };
+        }, qtyFields);
 
         try {
-          const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyvM5Bac-SO4Q-EppNccPc2xJT_7qeKRO_QneXGd3B3OQuT45i75kHLCZrxS3SQc2Gx/exec';
+          var GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyvM5Bac-SO4Q-EppNccPc2xJT_7qeKRO_QneXGd3B3OQuT45i75kHLCZrxS3SQc2Gx/exec';
 
           await fetch(GOOGLE_SCRIPT_URL, {
             method: 'POST',
@@ -1198,15 +1365,19 @@ const governorates = {
           });
 
           fbq('track', 'Purchase', {
-            value: formData.totalPrice,
+            value: totalPrice,
             currency: 'EGP',
             content_name: 'ORZI Heritage Bracelets',
-            num_items: calcTotalItems(qty)
+            num_items: totalItems
           });
+
+          /* Clear cart after successful submission */
+          localStorage.removeItem(CART_KEY);
 
           modal.classList.add('active');
           form.reset();
           areaSelect.disabled = true;
+          renderCart();
         } catch (error) {
           modal.classList.add('active');
         } finally {
@@ -1236,6 +1407,16 @@ const governorates = {
 
       areaSelect.addEventListener('change', function() {
         clearError('areaError');
+      });
+
+      /* Initial render */
+      renderCart();
+
+      /* Listen for cart changes from other tabs */
+      window.addEventListener('storage', function(e) {
+        if (e.key === CART_KEY) {
+          renderCart();
+        }
       });
     </script>
 
